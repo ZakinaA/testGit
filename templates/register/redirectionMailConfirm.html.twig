@@ -1,0 +1,10 @@
+{% extends 'basePublic.html.twig' %}
+
+
+{% block contenuPublic %}
+
+Hey {{pEtudiant.prenom}} {{pEtudiant.nom}}. </br>
+</br>
+Tu pourras te connecter <a href="{{ path('app_login')}}">ici</a>
+dès que que l'administrateur aura validé ton compte.
+{% endblock %}

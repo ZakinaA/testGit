@@ -1,0 +1,85 @@
+{% extends "baseEtudiant.html.twig" %}
+{% block titreContenu %}<a href="{{ path('etudiantRps')}}">Réalisations professionnelles  </a>{% endblock %}
+
+
+{% block contenu%}
+{% for message in app.flashes('success') %}{# affichera un message de succès si l'action est réussie #}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
+</br>
+     <div class="col-lg-10">
+                  <div class="card">
+                    <div class="card-close">
+                      <div class="dropdown">
+                        <button type="button" id="closeCard3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                        <div aria-labelledby="closeCard3" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                      </div>
+                    </div>	
+
+                    		
+                    <div class="card-header d-flex align-items-center">
+                        <h3 class="h4"><h3 class="h4"> Liste des rp
+                              {% if lesRps[0] is defined %}
+                                {% if lesRps[0].archivage == 1 %}
+                                  archivées
+                                  {% else %}
+                                  en cours
+                                {% endif %}
+                              {% endif %}
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">   
+                        <table class="table table-striped table-sm">
+                         {% if lesRps[0] is defined %}
+                          <thead>
+                            <tr>
+                              <th>Source <span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                              <th>Libelle<span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                              <th>Nombre d'activités<span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                              <th>Date<span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                               <th>Statut<span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                               <th>
+                                
+                                  {% if lesRps[0].archivage == 0 %}
+                                    Archiver
+                                  {% else %}
+                                    Désarchiver
+                                  {% endif %}
+                              
+
+                                </th>
+
+                                   {% if lesRps[0].archivage == 1 %}
+                                   <th>
+                                    Supprimer
+                                   </th>
+                                    {% endif %}
+                            </tr>
+                          </thead>
+                          {% else %}
+                            Pas de rp
+                          {% endif %}
+                          <tbody>
+                          {% for rp in lesRps  %}
+                            <tr>
+                              <th scope="row">{{rp.source.libelle}} </th>
+                              <td><a class="text" href="{{ path('rpShowEditAdd', { 'idRp': rp.id }) }}">{{rp.libcourt}}</a></td>
+                              <td>{{rp.activites.count}}</td>
+                              <td>{{rp.dateDebut | date("d/m/Y")}}</td>
+                              <td>{{rp.statut.libelle}} {% if rp.statut.id == 2%} de {{rp.enseignant.prenom}} {{rp.enseignant.nom}} {% endif %}</td>
+                              <td>{% if rp.archivage == 0 %}<a class="text" href="{{ path('rpArchiver', { 'idRp': rp.id }) }}"><span title="Cliquer pour archiver"><img src="{{ asset('images/delete.png' | trans)}}" class="mr-2"></span> {% else %}<a class="text" href="{{ path('rpDesarchiver', { 'idRp': rp.id }) }}"><span title="Cliquer pour désarchiver"><img src="{{ asset('images/restore.png' | trans)}}" alt="désarchiver" class="mr-2">{% endif %}</span></a></td>
+                              {% if rp.archivage == 1 %}
+                                <td><a class="text" href="{{ path('rpRemove', { 'idRp': rp.id }) }}"><span title="Cliquer pour supprimer"><img src="{{ asset('images/bin.png' | trans)}}" class="mr-2"  onclick="return confirm('Confirmer la suppression ?')"></span> </a></td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                         </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>      
+{% endblock %}

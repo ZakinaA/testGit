@@ -1,0 +1,75 @@
+{% extends templateTwigParent %}
+
+{% block titreContenu %}
+    {{ include('././titreRp.html.twig') }}
+{% endblock %}
+
+
+{% block contenu%}
+</br>
+ <!-- Forms Section-->
+<!--section class="forms"--> 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">  
+                      <h3 class="h4"> Intitulé  : {{rp.libcourt}}</h3>                     
+                        </div>
+                    </div>
+
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">            
+                        
+                        <!-- Breadcrumb-->
+                        <div class="breadcrumb-holder container-fluid">
+                            <ul class="breadcrumb">
+                              <li class="breadcrumb-item active"><a  {% if is_granted('ROLE_ENSEIGNANT') %} href="{{ path('rpShow', { 'idRp': rp.id  }) }}" {% else %}  href="{{ path('rpShowEditAdd', { 'idRp': rp.id }) }}" {% endif %}>Description</a></li>
+                              <li class="breadcrumb-item active"><a href="{{ path('rpActiviteList', { 'idRp': rp.id }) }}">Activités</a></li>
+                              <li class="breadcrumb-item">Productions</li>                                
+                              <li class="breadcrumb-item active"><a  {% if is_granted('ROLE_ENSEIGNANT') %} href="{{ path('commentaireRpAdd', { 'idRp': rp.id  }) }}" {% else %}  href="{{ path('rpCommentaireNotifierEnseignant', { 'idRp': rp.id }) }}" {% endif %}>Commentaires</a></li>
+                              {% if is_granted('ROLE_ENSEIGNANT') %}<li class="breadcrumb-item active"><a   href="{{ path('rpValider', { 'idRp': rp.id  }) }}"  >Valider</a></li>     {% endif %}
+                           </ul>                
+                        </div> 
+                        {% if is_granted('ROLE_ENSEIGNANT') %} {% else %}                                     
+                          <button class="btn btn-primary" type="submit"  onclick="window.location.href='{{ path('rpProductionAdd', { 'idRp': rp.id  })  }}'">Nouvelle Production</button>
+                        {% endif %}
+                    <!--h3 class="h4">Ajouter ou modifier</h3-->                
+                    </div>
+
+                    <div class="card-body">  
+                      <div class="table-responsive">   
+                        <table class="table table-striped table-sm">
+                          <thead>
+                            <tr>
+                              <th>Description</th>
+                              <th>Url</th> 
+                               {% if is_granted('ROLE_ENSEIGNANT') %}{% else %}                          
+                                <th>supprimer</th>
+                                {% endif %}
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {% for prod in rp.productions  %}
+                            <tr>
+                              <td><a {% if is_granted('ROLE_ENSEIGNANT') %}{% else %} href="{{ path('rpProductionEdit', {'idProduction': prod.id }) }}" {% endif %}>{{prod.designation}}</a></td>
+                              <td>{{prod.url}}</td>
+                              {% if is_granted('ROLE_ENSEIGNANT') %}{% else %} 
+                                <td> <a class="text" href="{{ path('rpProductionRemove', { 'idProduction': prod.id }) }}"  onclick="return confirm('Confirmer la suppression ?')" ><span title="Cliquer pour supprimer"><img src="{{ asset('images/bin.png' | trans)}}" class="mr-2"></span> </a></td>
+                              {% endif %}
+                            </tr>
+                           {% endfor %}
+                         </tbody>
+                        </table>
+
+                      </div>
+                                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--/section-->
+
+{% endblock %}

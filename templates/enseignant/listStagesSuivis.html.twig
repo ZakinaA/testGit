@@ -1,0 +1,43 @@
+{% extends "baseEnseignant.html.twig" %}
+{% block titreContenu %}Liste des stages suivis{% endblock %}
+
+
+{% block contenu%}
+
+{#{ include('./promotion/listPromos.html.twig') }#}
+</br>
+     <div class="col-lg-12">
+                  <div class="card">        
+                    <div class="card-body">
+
+                      <div class="table-responsive">   
+                        <table class="table table-striped table-sm">
+                          <thead>
+                            <tr>
+                              <th>Etudiant</th>
+                              <th>Année</th>
+                              <th>Entreprise</th>
+                              <th>Nom tuteur</th>
+                              <th>Tel Tuteur</th>
+                              <th>Mail Tuteur</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          
+                          {% for stage in stages  %}    
+                            <tr>
+                              <th scope="row"><a href="{{ path('stageShow', { 'idStage': stage.id }) }}">{{stage.etudiant.prenom}} {{stage.etudiant.nom}} </a></th>
+                              <td>{{stage.etudiant.niveau.nom}}</td>
+                              <td>{{stage.nomEntreprise}}</td>
+                              <td>{{stage.nomTuteur }}</td>
+                              <td>{{stage.telTuteur}}</td>
+                              <td>{{stage.mailTuteur}}</td>
+                            </tr>
+                            {% endfor %}
+                         </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>      
+{% endblock %}

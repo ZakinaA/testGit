@@ -1,0 +1,245 @@
+
+{#% extends "etudiant/baseEtudiant.html.twig" %#}
+{% extends templateTwigParent %}
+
+{% block titreContenu %}  
+    {% if is_granted('ROLE_ENSEIGNANT') %}
+        <a href="{{ path('stagesSuivisList') }}">Stages / </a> Stage de  {{stage.etudiant.prenom}} {{stage.etudiant.nom}} chez {{stage.nomEntreprise}}
+    {% else %}
+        Mon stage
+    {% endif %}
+{% endblock %}
+
+{% block contenu%}
+
+</br>
+{% for message in app.flashes('success') %}{# affichera un message de succès si l'action est réussie #}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
+
+ <!-- Forms Section-->
+<!--section class="forms"--> 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        
+                        <!-- Breadcrumb-->
+                        <div class="breadcrumb-holder container-fluid">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item active">
+                                   
+                                   <!-  lien infos du stage en fonction du rôle etudiant ou enseignant -->
+                                    {% if is_granted('ROLE_ENSEIGNANT') %}
+                                        <a href="{{ path('stageShow', {'idStage': stage.id }) }}">
+                                    {% else %}
+                                        {% if is_granted('ROLE_ETUDIANT') %} 
+                                            <a href="{{ path('stageAddEdit', {'idStage': stage.id }) }}">
+                                        {% endif %}
+                                    {% endif %}
+                                    Infos</a></li>
+
+                                    {% if stage.id > 0 %}  <!-- on est sur un stage existant  - si nouveau stage, on n'affiche pas ces liens -->        
+                                        {% if stage.duree > 0 %}          
+                                    {% set nbSem = stage.duree %}
+                                    {% for i in 1..nbSem %}
+                                        <li class="breadcrumb-item">
+                                            {% if is_granted('ROLE_ENSEIGNANT') %}
+                                                <a href="{{ path('showSemaineStage', {'idStage': stage.id, 'numSemaine': i})}}"> 
+                                            {% else %}
+                                                {% if is_granted('ROLE_ETUDIANT') %} 
+                                                    <a href="{{path('semaineStageShowAdd', {'idStage': stage.id, 'numSemaine': i})}}"> 
+                                                {% endif %}
+                                            {% endif %}
+                                            Semaine {{ i }}</a>     
+                                        </li>                         
+                                    {% endfor %}
+
+                                    <!-- lien attestation -->
+                                    {% if is_granted('ROLE_ENSEIGNANT') %} 
+                                    {% elseif is_granted('ROLE_ETUDIANT') %}                                       
+                                        <li class="breadcrumb-item"><a href="{{ path('stageAttestationPdf', { 'idStage': stage.id} ) }}"> Attestation </a></li>                                                                                            
+                                    {% endif %}
+
+                                {% endif %}    
+                                {% endif %}                           
+                            </ul>
+                        </div>
+
+
+                    </div>
+
+                    <div class="card-body">  
+
+                        {{ form_start(form)}}
+
+                            <!-- 1ère ligne de formulaire -->
+                            <div class="form-group row">    
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{ form_row(form.nomEntreprise, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div> 
+                                        <div class="col-md-3">
+                                            {{ form_row(form.siret, {'attr' : {'class' : 'form-control form-control-sm'}}) }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form_row(form.codeNaf, {'attr' : {'class' : 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--  ligne de formulaire  adresse -->
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        
+                                         <div class="col-md-6">
+                                            {{ form_row(form.rue, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ form_row(form.copos, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form_row(form.ville, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+
+                            <!-- 3ème ligne de formulaire adresse -->
+                            <div class="form-group row">  
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{ form_row(form.sujet, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line"></div>
+
+                            <!--  ligne directeur.rice -->
+                            <div class="form-group row">  
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{ form_row(form.nomDirecteur, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form_row(form.mailDirecteur, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form_row(form.telDirecteur, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                           <!--  ligne tuteur -->
+                            <div class="form-group row">  
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{ form_row(form.nomTuteur, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form_row(form.mailTuteur, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form_row(form.telTuteur, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <!--  ligne de formulaire dates-->
+                            <div class="form-group row">  
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            {{ form_row(form.dateDebut, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form_row(form.dateFin, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form_row(form.duree, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <!-- ligne de formulaire service et lieu -->
+                            <div class="form-group row">  
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{ form_row(form.lieu, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{ form_row(form.service, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--  ligne horaires -->
+                            <div class="form-group row">  
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            {{ form_row(form.horLun, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ form_row(form.horMar, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ form_row(form.horMer, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ form_row(form.horJeu, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ form_row(form.horVen, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ form_row(form.horSam, {'attr' : {'class' : 'form-control form-control-sm'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--  ligne de  boutons-->
+                            <div class="form-group row">
+                                <div class="col-sm-4 offset-sm-4">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                           {{ form_row(form.cancel, {'attr' : {'class' : 'btn btn-secondary'}}) }}
+                                        </div>
+                                        <div class="col-md-3">
+                                             {{ form_row(form.submit, {'attr' : {'class' : 'btn btn-primary'}}) }}
+                                        </div>
+                                    </div>
+                                </div>                             
+                            </div>
+
+						
+           
+
+                    {{ form_end(form) }}
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--/section-->
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'basePublic.html.twig' %}
+
+
+{% block contenuPublic %}
+
+Il semblerait qu'un utilisateur ait déjà été enregistré avec cet email.
+
+Si tu t'es déjà enregistré, tu n'as plus qu'à te connecter <a href="{{ path('app_login') }}">ici</a>
+{% endblock %}

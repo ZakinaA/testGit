@@ -1,0 +1,121 @@
+{# templates/rp/showEdit.html.twig #}
+
+{% extends "etudiant/baseEtudiant.html.twig" %}
+
+{% block titreContenu %}
+    {{ include('././titreRp.html.twig') }}
+{% endblock %}
+
+{% block contenu%}
+
+{% for message in app.flashes('success') %}{# affichera un message de succès si l'action est réussie #}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
+</br>
+
+ <!-- Forms Section-->
+<!--section class="forms"--> 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+
+                    <!-- Breadcrumb-->
+                        <div class="breadcrumb-holder container-fluid">
+                            <ul class="breadcrumb">
+                            <li class="breadcrumb-item active"><a href="{{ path('rpShowEditAdd', {'idRp': idRp }) }}">Description</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('rpActiviteList', { 'idRp': idRp }) }}">Activités</a></li>
+                            <li class="breadcrumb-item active"><a href="{{ path('rpProductionList', { 'idRp': idRp }) }}">Productions</a></li>  
+                            <li class="breadcrumb-item active"><a href="{{ path('rpCommentaireNotifierEnseignant', { 'idRp': idRp }) }}">Commentaires</a></li>             
+                            </ul>
+                        </div>
+                    <!--h3 class="h4">Ajouter ou modifier</h3-->                
+                    </div>
+                    <div class="card-body">  
+                        {{ form_start(form)}}
+
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                        <label id="activites" name="activites">
+                                            {{ form_row(form.activite, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </label> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+ 
+
+                    <div class="col-sm-12" id="competences" name="competences">
+                    </div>
+                    </br>
+
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{ form_row(form.commentaire, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        <!--  ligne de  boutons-->
+                        <div class="form-group row">
+                            <div class="col-sm-4 offset-sm-4">
+                                <button type="submit" class="btn btn-secondary">Annuler</button>
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                        {{ form_end(form) }}
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--/section-->
+
+{% endblock %}
+
+
+{% block javascript %}
+    
+<script>
+    jQuery( document ).ready(function( $ ) {
+        $("#activites").change(function () {
+            $( "select option:selected" ).each(function() {
+                });
+                var idAct = $(this).find(':selected').attr('value');
+                $('#competences').text("");
+
+            $.ajax({
+                type: "post",
+                url: '{{ path('competencesShow') }}',
+                data: { idActivite : idAct },
+                dataType: "json",
+                
+                success: function (json) {
+
+                
+                $.each(json, function (index, value) {
+
+                    //console.log(value);
+                    $('#competences').append("<ul> <li>"+value);
+                });
+                },
+                error: function(jxh,textmsg,errorThrown){
+                    console.log(textmsg);
+                    console.log(errorThrown);
+                }
+            });
+        });
+    });
+ 
+ 
+</script>
+{% endblock %}

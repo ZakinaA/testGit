@@ -1,0 +1,10 @@
+{% if is_granted('ROLE_ENSEIGNANT') %}   
+   <a href="{{ path('rpsParEtudiant', {'idEtudiant': rp.etudiant.id  }) }}">Réalisations professionnelles de {{rp.etudiant.prenom}} {{rp.etudiant.nom}}</a>
+{% else%}
+    {% if is_granted('ROLE_ETUDIANT') %}
+        <a href="{{ path('etudiantRps')}}">Réalisations professionnelles </a>
+    {% endif%}
+{% endif%}
+
+
+

@@ -1,0 +1,122 @@
+
+{#% extends "etudiant/baseEtudiant.html.twig" %#}
+{% extends templateTwigParent %}
+
+{% block titreContenu %}Mon compte {% endblock %}
+
+{% block contenu%}
+
+</br>
+{% for message in app.flashes('success') %}{# affichera un message de succès si l'action est réussie #}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
+
+ <!-- Forms Section-->
+<!--section class="forms"--> 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Mes informations</h3>
+                    </div>
+                    <div class="card-body">  
+
+                        {{ form_start(form)}}
+
+                            <!-- 1ère ligne de formulaire mail-->
+                            <div class="form-group row">
+                                <div class="col-sm-11">
+                                    <div class="row">                                               
+                                            <div class="col-md-5">
+                                            {{ form_row(form.email, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2ème ligne de formulaire classe-->
+                            <div class="form-group row">    
+                                <div class="col-sm-11">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            {{ form_row(form.etudiant.promotion, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div> 
+                                        <div class="col-md-4">
+                                            {{ form_row(form.etudiant.nom, {'attr' : {'class' : 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form_row(form.etudiant.prenom, {'attr' : {'class' : 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3ème ligne de formulaire identité -->
+                            <div class="form-group row">
+                                <div class="col-sm-11">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            {{ form_row(form.etudiant.niveau, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form_row(form.etudiant.specialite, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form_row(form.etudiant.dateNaiss, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="line"> </div>
+
+                            <!-- 4ème ligne de formulaire adresse -->
+                            <div class="form-group row">  
+                                <div class="col-sm-11">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            {{ form_row(form.etudiant.rue, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ form_row(form.etudiant.copos, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div>
+                                        <div class="col-md-5">
+                                            {{ form_row(form.etudiant.ville, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="line"></div>
+
+                            <!-- 5ème ligne de formulaire photo-->
+                            <div class="form-group row"> 
+                                <div class="col-sm-5">
+                                    <!--input id="upload_file" name="upload_file" type="file" class="form-control-file-->
+                                    {{ form_row(form.upload_file, {'attr' : {'class' : 'form-control'}}) }} 
+                                </div>
+                            </div>
+ 
+                            <div class="line"></div>
+						
+                        <!-- 6ème ligne de formulaire boutons-->
+                        <div class="form-group row">
+                            <div class="col-sm-4 offset-sm-3">
+                                <button type="submit" class="btn btn-secondary">Annuler</button>
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </div>
+
+                    {{ form_end(form) }}
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--/section-->
+
+{% endblock %}

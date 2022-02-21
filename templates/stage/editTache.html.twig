@@ -1,0 +1,60 @@
+
+{% extends "etudiant/baseEtudiant.html.twig" %}
+
+
+{% block titreContenu %}modification d'une tâche {% endblock %}
+
+{% block contenu%}
+
+</br>
+{% for message in app.flashes('success') %}{# affichera un message de succès si l'action est réussie #}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
+
+ <!-- Forms Section-->
+<!--section class="forms"--> 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                    
+                    </div>
+
+                    <div class="card-body">  
+
+                        {{ form_start(form)}}
+
+                            <!-- 1ère ligne de formulaire -->
+                            <div class="form-group row">    
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                     <div class="col-md-2">
+                                            {{ form_row(form.jour, {'attr' : {'class' : 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form_row(form.domaineTache, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div> 
+                                        <div class="col-md-5">
+                                            {{ form_row(form.description, {'attr' : {'class' : 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-md-2">
+                                             {{ form_row(form.ajouter, {'attr': {'class': 'btn btn-primary'}})}}
+                                        </div>   
+                                       
+                                    </div>
+                                </div>
+                            </div>
+
+                    {{ form_end(form) }}
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--/section-->
+
+{% endblock %}

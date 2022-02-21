@@ -1,0 +1,98 @@
+
+{% extends templateTwigParent %}
+{% block titreContenu %}Gestion des comptes {% endblock %}
+
+{% block contenu%}
+
+</br>
+{% for message in app.flashes('success') %}{# affichera un message de succès si l'action est réussie #}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
+
+ <!-- Forms Section-->
+<!--section class="forms"--> 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="card">
+
+                    <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Compte enseignant</h3>
+                    </div>
+
+                    <div class="card-body">  
+
+                        {{ form_start(form)}}
+
+                            <!-- 1ère ligne de formulaire mail-->
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{ form_row(form.email, {'attr' : {'class' : 'form-control'}}) }} 
+                                        </div>                                                                       
+                                    </div>
+                                </div>
+                            </div>
+
+		                    <!-- ligne nom prénom -->
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {{ form_row(form.enseignant.nom, {'attr' : {'class' : 'form-control'}}) }} 
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{ form_row(form.enseignant.prenom, {'attr' : {'class' : 'form-control'}}) }} 
+                                            </div>              
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <!-- ligne niveau et matière -->
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {{ form_row(form.enseignant.niveau, {'attr' : {'class' : 'form-control'}}) }} 
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{ form_row(form.enseignant.matiere, {'attr' : {'class' : 'form-control'}}) }} 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <!--  ligne de formulaire photo-->
+                                <div class="form-group row"> 
+                                    <div class="col-sm-8">
+                                        <!--input id="upload_file" name="upload_file" type="file" class="form-control-file-->
+                                        {{ form_row(form.upload_file, {'attr' : {'class' : 'form-control'}}) }} 
+                                    </div>
+                                </div>
+    
+                                <div class="line"></div>
+						
+                            <!-- ligne de formulaire boutons-->
+                            <div class="form-group row">
+                                <div class="col-sm-4 offset-sm-3">
+                                    <button type="submit" class="btn btn-secondary">Annuler</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                </div>
+                             </div>
+
+                        {{ form_end(form) }}
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--/section-->
+
+{% endblock %}
+
+
+

@@ -1,0 +1,95 @@
+{% extends "base.html.twig" %}
+
+  {% block notifications %}
+  <!-- Notifications-->
+                <li class="nav-item dropdown"> <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-bell-o"></i><span class="badge bg-red badge-corner">{{app.user.etudiant.rps.count}}</span></a>
+                  <ul aria-labelledby="notifications" class="dropdown-menu">
+                    <li><a rel="nofollow" href="#" class="dropdown-item"> 
+                        <div class="notification">
+                          <div class="notification-content"><i class="fa fa-envelope bg-green"></i>Vous avez {{app.user.etudiant.rps.count}} rp</div>
+                          <div class="notification-time"><small>{% if (app.user.etudiant.rps.count > 0) %}Dernière créée le {{app.user.etudiant.rps.last.dateModif | date("d/m/Y")}}  {% endif %}</small></div>
+                        </div></a></li>
+
+                             <li><a rel="nofollow" href="#" class="dropdown-item"> 
+                        <div class="notification">
+                          <div class="notification-content"><i class="fa fa-upload bg-orange"></i>Vous déclarez {{app.user.etudiant.getNbActivites}} activités</div>
+                          <!--div class="notification-time"><small>4 minutes ago</small></div-->
+                        </div></a></li>
+            
+                    <li><a rel="nofollow" href="{{ path('etudiantRps')}}" class="dropdown-item all-notifications text-center"> <strong>voir toutes les rp                                            </strong></a></li>
+                  </ul>
+                </li>
+  {% endblock %}
+
+ {% block profil %}
+    <li class="nav-item dropdown"><a id="profile" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><span class="d-none d-sm-inline-block">Mon compte</span></a>
+      <ul aria-labelledby="profil" class="dropdown-menu">
+        <li><a rel="nofollow" href="{{ path('etudiantShowEdit')}}" class="dropdown-item"> <img src="{{ asset('images/monCompte.png') }}" alt="Mon compte" class="mr-2">Mes informations</a></li>
+        <li><a rel="nofollow" href="{{ path('app_forgot_password_request') }}"  class="dropdown-item"> <img src="{{ asset('images/changePasswd.png') }}" alt="changePasswd" class="mr-2">Changer mot de passe</a></li>
+        <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="{{ asset('images/contact.png' | trans)}}" alt="Contact" class="mr-2">Contact Admin</a></li>
+      </ul>
+    </li>
+ {% endblock %}
+
+{% block navBar %} {# bloc NavBar étudiant#}
+
+      <div class="page-content d-flex align-items-stretch"> 
+        <!-- Side Navbar -->
+        <nav class="side-navbar">
+
+          <!-- Sidebar Header-->
+          <div class="sidebar-header d-flex align-items-center">
+            
+            <div class="avatar">
+            <a href="{{ path('etudiantHome')}}">
+              {% set photo = 'avatar/etudiant/'~ app.user.etudiant.id ~'.png' %}
+              <img src="{{ asset(photo | trans )}}" alt="..." class="img-fluid rounded-circle" onError="this.src="{{ asset('avatar/lambda.png' | trans )}}";">
+            </a>
+            </div>
+           <div class="title"><a href="{{ path('etudiantHome')}}">
+              <h1 class="h4">{{app.user.etudiant.prenom}} {{app.user.etudiant.nom}}</h1>
+              <p>Etudiant</p></a>
+            </div>
+            
+          </div>
+
+          <!-- Sidebar Navidation Menus-->
+          <span class="heading">Mon activité</span>
+          
+          <ul class="list-unstyled">
+            <li><a href="#realisation" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-bar-chart"></i>Réalisations Pro. </a>
+              <ul   id="realisation" class="collapse list-unstyled ">
+                <li><a href="{{ path('rpShowEditAdd')}}">Nouvelle réalisation</a></li>
+                <li><a href="{{ path('etudiantRps')}}">Réalisations en cours</a></li>
+                <li><a href="{{ path('etudiantRpsArchivees')}}">Réalisations archivées</a></li>
+                
+              </ul>
+            </li>
+            
+            <li><a href="#stage" aria-expanded="false" data-toggle="collapse"> <i class="icon-grid"></i>Stages </a>
+              <ul id="stage" class="collapse list-unstyled ">
+                <li><a href="{{ path('etudiantStages')}}">Mes stages</a></li>
+                <li><a href="{{ path('stageAddEdit')}}">Nouveau stage</a></li>
+              </ul>
+            </li>    
+          </ul>
+
+
+        <!-- Sidebar Navidation Menus--><span class="heading">Paramètres</span>
+        <!--
+          <ul class="list-unstyled">
+            <li><a href="index.html"> <i class="icon-home"></i> Bilan</a></li>
+            <li><a href="tables.html"> <i class="icon-grid"></i>Tableau de synthèse </a></li>
+            <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Sauvegarde </a></li>
+          </ul>
+        -->
+
+        </nav>
+        
+{% endblock %} {# fin bloc NavBar étudiant#}
+
+{% block contenu %}  
+
+
+test contenu etudiant
+{% endblock %}

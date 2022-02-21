@@ -1,0 +1,26 @@
+{% extends 'basePublic.html.twig' %}
+
+ {% block contenuPublic %}
+                  <form method="post" class="form-validate">
+
+                  {% if error %}
+                      <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                  {% endif %}
+                  
+                    <div class="form-group">             
+                       <input id="email" type="email" name="email" required data-msg="Entrez votre email" class="input-material">
+                      <label for="email" class="label-material">email</label>
+                    </div>
+                    <div class="form-group">
+                      <input id="password" type="password" name="password" required data-msg="Entrez votre mot de passe" class="input-material">
+                      <label for="password" class="label-material">Mot de passe</label>
+                       <button class="btn btn-primary" type="submit">Se connecter</button>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <!-- This should be submit button but I replaced it with <a> for demo purposes-->
+                  </form><a href="{{ path('app_forgot_password_request') }}" class="forgot-pass">Mot de passe oublié ?</a><br><small>Pas de compte ? </small><a href="{{ path('inscription') }}" class="signup">Inscription</a>             
+               
+        
+ {% endblock  %}       
+   

@@ -1,0 +1,60 @@
+ {% extends "base.html.twig" %}
+ {% block profil %}
+    <li class="nav-item dropdown"><a id="profile" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><span class="d-none d-sm-inline-block">Mon compte</span></a>
+      <ul aria-labelledby="profil" class="dropdown-menu">
+        <li><a rel="nofollow" href="{{ path('enseignantShowEdit')}}" class="dropdown-item"> <img src="{{ asset('images/monCompte.png') }}" alt="Mon compte" class="mr-2">Mes informations</a></li>
+        <li><a rel="nofollow" href="{{ path('app_forgot_password_request') }}"  class="dropdown-item"> <img src="{{ asset('images/changePasswd.png') }}" alt="changePasswd" class="mr-2">Changer mot de passe</a></li>
+        <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="{{ asset('images/contact.png' | trans)}}" alt="Contact" class="mr-2">Contact Admin</a></li>
+      </ul>
+    </li>
+ {% endblock %}
+
+{% block navBar %} {# bloc NavBar étudiant#}
+
+      <div class="page-content d-flex align-items-stretch"> 
+        <!-- Side Navbar -->
+        <nav class="side-navbar">
+
+          <!-- Sidebar Header-->
+          <div class="sidebar-header d-flex align-items-center">
+            
+            <div class="avatar">
+            <a href="{{ path('etudiantHome')}}">
+              {% set photo = 'avatar/enseignant/'~ app.user.enseignant.id ~'.png' %}
+              <img src="{{ asset(photo | trans )}}" alt="..." class="img-fluid rounded-circle" onError="this.src="{{ asset('avatar/lambda.png' | trans )}}";">
+            </a>
+            </div>
+           <div class="title"><a href="{{ path('enseignantHome')}}">
+              <h1 class="h4">{{app.user.enseignant.prenom}} {{app.user.enseignant.nom}}</h1>
+              <p>Enseignant</p></a>
+            </div>
+            
+          </div>
+
+          <!-- Sidebar Navidation Menus-->
+          <span class="heading">Mon activité</span>
+          
+          <ul class="list-unstyled">
+            <li><a href="#realisation" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-bar-chart"></i>Réalisations Pro. </a>
+              <ul   id="realisation" class="collapse list-unstyled ">
+                <li><a href="{{ path('rpsEtudiantsParSpecialiteEtNiveau', {'idSpecialite': 1 ,'idNiveau': 2,'source': 'menu' }) }}">SISR 2</a></li>
+                <li><a href="{{ path('rpsEtudiantsParSpecialiteEtNiveau', {'idSpecialite': 2 ,'idNiveau': 2,'source': 'menu' }) }}">SLAM 2</a></li>
+                <li><a href="{{ path('rpsEtudiantsParSpecialiteEtNiveau', {'idSpecialite': 1 ,'idNiveau': 1,'source': 'menu' }) }}">SISR 1</a></li>
+                <li><a href="{{ path('rpsEtudiantsParSpecialiteEtNiveau', {'idSpecialite': 2 ,'idNiveau': 1,'source': 'menu' }) }}">SLAM 1</a></li>
+                <li><a href="{{ path('allRpsArchivees')}}">rp archivées</a></li>
+              </ul>
+            </li>
+            
+            <li><a href="#stage" aria-expanded="false" data-toggle="collapse"> <i class="icon-grid"></i>Stages </a>
+              <ul id="stage" class="collapse list-unstyled ">
+                <li><a href="{{ path('stagesSuivisList') }}">Stages suivis</a></li>
+              </ul>
+            </li>    
+          </ul>
+        </nav>
+        
+{% endblock %} {# fin bloc NavBar étudiant#}
+
+{% block contenu %}  
+test contenu enseignant
+{% endblock %}

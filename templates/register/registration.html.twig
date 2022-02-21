@@ -1,0 +1,46 @@
+{% extends 'basePublic.html.twig' %}
+
+ {% block contenuPublic %}
+                  
+			        	{{ form_start(form) }}
+
+                  <div class="form-group">
+						      {{ form_row(form.email, {'attr' : {'class' : 'input-material'}}) }}  
+                  </div>
+
+                  <div class="form-group">
+					        {{ form_row(form.password, {'attr' : {'class' : 'input-material'}}) }} 
+                  </div>
+
+					        <div class="form-group">
+					        {{ form_row(form.nom, {'attr' : {'class' : 'input-material'}}) }}
+                  </div>
+
+					        <div class="form-group">
+					        {{ form_row(form.prenom, {'attr' : {'class' : 'input-material'}}) }}
+                  </div>
+
+					        <div class="form-group">
+					        {{ form_row(form.specialite, {'attr' : {'class' : 'input-material'}}) }}
+                  </div>
+
+       
+
+                  <!--div class="form-group"-->
+					        {#{ form_row(form.dateNaiss, {'attr' : {'class' : 'input-material'}}) }#}
+                  <!--/div-->
+
+                  <div class="form-group terms-conditions">
+                  <input id="register-agree" name="registerAgree" type="checkbox" required value="1" data-msg="Your agreement is required" class="checkbox-template">
+                  <label for="register-agree">J'accepte la charte informatique du lycée</label>
+                  </div>
+
+                  <div class="form-group">
+                  <button id="register" type="submit" name="registerSubmit" class="btn btn-primary">Enregistrer</button>
+                  </div>
+                  
+                  <small>Vous avez déjà un compte ? </small><a href="{{ path('app_login') }}" class="signup">Login</a>
+				        
+                {{ form_end(form) }}		   
+          {% endblock %}
+   

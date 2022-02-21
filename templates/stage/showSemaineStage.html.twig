@@ -1,0 +1,88 @@
+{% extends "baseEnseignant.html.twig" %}
+{% block titreContenu %}  <a href="{{ path('stagesSuivisList') }}">Stages / </a> Stage de  {{stage.etudiant.prenom}} {{stage.etudiant.nom}} chez {{stage.nomEntreprise}}{% endblock %}
+
+
+{% block contenu%}
+</br>
+
+<div class="col-lg-10">
+  <div class="card">                
+    <div class="card-header d-flex align-items-center">
+        
+        <!-- Breadcrumb-->
+        <div class="breadcrumb-holder container-fluid">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="{{ path('stageShow', {'idStage': stage.id }) }}">Info</a></li>
+                {% if stage.duree > 0 %}          
+                    {% set nbSem = stage.duree %}
+                    {% for i in 1..nbSem %}
+                        <li class="breadcrumb-item"><a href="{{path('showSemaineStage', {'idStage': stage.id, 'numSemaine': i})}}"> Semaine {{ i }} </a></li>                         
+                    {% endfor %}
+                {% endif %}
+
+              <!-- lien attestation -->
+              {% if is_granted('ROLE_ENSEIGNANT') %} 
+              {% elseif is_granted('ROLE_ETUDIANT') %} 
+                <li class="breadcrumb-item"><a href="{{ path('stageAttestationPdf', { 'idStage': stage.id} ) }}"> Attestation </a></li>                         
+              {% endif %}
+
+
+            </ul>
+        </div>
+        <!-- FIN Breadcrumb-->
+    </div>
+  </div>
+</div>   
+
+
+<!--Tableau affichage activités -->
+
+<div class="col-lg-10">
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+        <h3 class="h4"><h3 class="h4"> {% if semaineStage.numSemaine is defined %}Liste des tâches de la semaine {{semaineStage.numSemaine}} {% endif %} </h3>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">  
+
+       {% if semaineStage is null %}
+          Aucune tâche n'a encore été renseignée sur cette semaine
+      
+        {% else %}
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                                <th scope="col-md-2">Jour</th>
+                                <th scope="col-md-2">Domaine</th>
+                                <th scope="col-md-7">Description</th>
+                               
+                </tr>
+            </thead>
+            <tbody>
+                    {% if semaineStage is defined %}
+                      {% if semaineStage.tachesemaines is defined %}
+                        {% for tache in semaineStage.tachesemaines|sort((a, b) => a.jour.nom <=> b.jour.nom) %}
+                          <tr>
+                            <th scope="row">{{tache.jour.nom}}</th>
+                            <td>{{tache.domaineTache.libelle}}</td>
+                            <td>{{tache.description}}</td>
+                            
+                          </tr>
+                        {% endfor %}
+                      {% endif %}
+                    {% else %}
+                      Aucune tâche n'a encore été renseignée sur cette semaine
+
+                    {% endif %}
+                             
+            </tbody>
+        </table>
+         {% endif %}              
+      </div>
+    </div>
+  </div>
+</div>
+ <!-- Fin tableau affichage activités -->
+
+{% endblock %}

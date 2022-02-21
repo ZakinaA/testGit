@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+ {% block profil %}
+    <li class="nav-item dropdown"><a id="profile" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><span class="d-none d-sm-inline-block">Mon compte</span></a>
+      <ul aria-labelledby="profil" class="dropdown-menu">
+        <li><a rel="nofollow" href="{#{ path('showEditAdmin')}#}" class="dropdown-item"> <img src="{{ asset('images/monCompte.png') }}" alt="Mon compte" class="mr-2">Mes informations</a></li>
+        <li><a rel="nofollow" href="{{ path('app_forgot_password_request') }}"  class="dropdown-item"> <img src="{{ asset('images/changePasswd.png') }}" alt="changePasswd" class="mr-2">Changer mot de passe</a></li>
+        <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="{{ asset('images/contact.png' | trans)}}" alt="Contact" class="mr-2">Contact Admin</a></li>
+      </ul>
+    </li>
+ {% endblock %}
+
+{% block navBar %} {# bloc NavBar étudiant#}
+
+      <div class="page-content d-flex align-items-stretch"> 
+        <!-- Side Navbar -->
+        <nav class="side-navbar">
+
+          <!-- Sidebar Header-->
+          <div class="sidebar-header d-flex align-items-center">
+            
+            <div class="avatar">
+            <a href="{#{ path('etudiantHome')}#}">
+              {% set photo = 'avatar/admin.PNG' %}
+              <img src="{{ asset(photo | trans )}}" alt="..." class="img-fluid rounded-circle" onError="this.src="{{ asset('avatar/lambda.png' | trans )}}";">
+            </a>
+            </div>
+           <div class="title"><a href="{#{ path('etudiantHome')}#}">
+              <h1 class="h4"></h1>
+              <p>ADMIN</p></a>
+            </div>
+            
+          </div>
+
+       
+          <!-- Sidebar Navidation Menus-->
+          
+          <span class="heading">Gestion des comptes</span>
+          <ul class="list-unstyled">
+            <li><a href="{{ path('listPromoEtudiants')}}"> <i class="icon-home"></i> Liste des étudiants</a></li>
+            <li><a href="{{ path('listEnseignants')}}"> <i class="icon-grid"></i>Liste des enseignants </a></li>
+             <li><a href="{{ path('listerComptesNonActifs')}}"> <i class="icon-grid"></i>Comptes inactifs </a></li>
+        </ul> 
+
+        <!-- Sidebar Navidation Menus--><span class="heading">Paramètres</span>
+          <ul class="list-unstyled">
+          
+           
+
+      </ul>
+   
+        </nav>
+        
+{% endblock %} {# fin bloc NavBar étudiant#}
+
+{% block contenu %}  
+ contenu admin
+{% endblock %}

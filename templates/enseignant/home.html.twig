@@ -1,0 +1,98 @@
+{% extends "baseEnseignant.html.twig" %}
+{% block titreContenu %}<a href="{{ path('enseignantHome')}}">Accueil </a>{% endblock %}
+
+{% block contenu%}
+
+{{ include('./promotion/listPromos.html.twig') }}
+
+</br>
+
+   <div class="col-lg-12">
+      <div class="card">
+                    
+     	 
+
+        <div class="card-header d-flex align-items-center">
+            <h3 class="h4"> Réalisations professionnelles à viser </h3>
+            
+            <div>
+              <input style="width: 50%; margin: 3vh 0;" class="form-control" onkeyup="search_rp()" id="search_rp" type="text" placeholder="Rechercher rp">
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">   
+                <table class="table table-striped table-sm" id="table_rp" >
+                    <thead>
+                      <tr>
+                        <th>Etudiant <span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                        <th>Source <span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                        <th>Libellé <span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                        <th>Nombre d'activités <span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                        <th>Date <span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                        <th>Statut <span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                        <th>Action <span onclick=TableOrder(event,1)>&#9660;</span><span onclick=TableOrder(event,0)>&#9650;</span></th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody_rp">
+                      {% for rp in app.user.enseignant.rps%}
+                        {#% if app.user.etudiant.rps[i] is defined %#}
+                          <tr>
+                            <td>{{rp.etudiant.prenom}} {{rp.etudiant.nom}} </td>
+                            <td>{{rp.source.libelle}} </td>
+                            <td><a class="text" href="{{ path('rpShow', { 'idRp': rp.id }) }}">{{rp.libcourt}}</a></td>
+                            <td>{{rp.activites.count}}</td>
+                            <td>{{rp.dateDebut | date("d/m/Y")}}</td>
+                            <td>{{rp.statut.libelle}}</td>
+                            <td>{% if rp.statut.id==4 %}-{% else %}<a class="text" href="{{ path('rpValider', { 'idRp': rp.id }) }}">Valider</a>{% endif %}</td>
+                          </tr>
+                        {#% endif %#}
+                      {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+      </div>
+    </div>   
+
+
+      <!!- tableau des stages--> 
+  <div class="col-lg-12">
+    <div class="card">   
+      <div class="card-header d-flex align-items-center">
+            <h3 class="h4"><h3 class="h4"> Stages suivis </h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">   
+                <table class="table table-striped table-sm">
+                    <thead>
+                     
+                      <tr>
+                        <th>Entreprise</th>
+                        <th>Nom tuteur</th>
+                        <th>Mail tuteur</th>
+                        <th>Tel tuteur</th>
+                        <th>sujet </th>
+                         <th>Lieu</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+          
+                      {% for stage in app.user.enseignant.stages %}
+                          <tr>
+                            <td><a class="text" href="{{ path('stageShow', { 'idStage': stage.id }) }}">{{stage.nomEntreprise}}</a></td>
+                            <td>{{stage.nomTuteur}}</td>
+                            <td>{{stage.mailTuteur}}</td>
+                            <td>{{stage.telTuteur}}</td>
+                            <td>{{stage.sujet}}</td>
+                            <td>{{stage.lieu}}</td>
+                          </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+    </div>
+  </div>   
+
+{% endblock %}

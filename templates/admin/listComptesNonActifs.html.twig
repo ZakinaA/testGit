@@ -1,0 +1,50 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block contenu%}
+{% for message in app.flashes('success') %}{# affichera un message de succès si l'action est réussie #}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
+</br>
+    <div class="col-lg-10">
+        <div class="card">         		
+                    <div class="card-header d-flex align-items-center">
+                        <h3 class="h4"><h3 class="h4"> Liste des comptes à valider ou supprimer</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">   
+                        <table class="table table-striped table-sm">
+                          <thead>
+                            <tr>
+                              <th>mail</th>
+                              <th>Nom</th>
+                              <th>Prénom</th>
+                              <th>Date de naissance</th>
+                              <th>Créé le</th>
+                              <th>Action</th>
+                              <th>Supprimer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {% for u in users %}
+                            <tr>
+                              {% if u.etudiant != null %}
+                              <td>{{u.email}}</td>
+                              <td>{{u.etudiant.nom}}</td>
+                              <td>{{u.etudiant.prenom}}</td>
+                              <td>{{u.etudiant.datenaiss |date("d/m/Y")}}</td>
+                              <td>{{u.createdAt |date("d/m/Y")}}</td>                
+                              <td>{% if u.token == null %} <a class="text" href="{{ path('validerCompte', {'email': u.email }) }}">valider{% else %} En attente {% endif %}</a></td>
+                              <td><a class="text" href="{{ path('supprimerCompte', {'email': u.email }) }}">supprimer</a></td>
+                              {% endif %}
+                            </tr>
+                            {% endfor %}
+                         </tbody>
+                        </table>
+                      </div>
+                    </div>         
+        </div>
+    </div>      
+{% endblock %}
+   
